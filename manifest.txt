@@ -1,0 +1,3 @@
+index.html
+maze.js
+a.png

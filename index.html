@@ -1,0 +1,49 @@
+<!doctype html>
+<html manifest="manifest.txt">
+	<head>
+		<title>maze game</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="user-scalable = no, initial-scale = 1" />
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+		<style type="text/css">
+			body{
+				font-family: sans-serif;
+				margin: 0;
+			}
+			#display{
+				/*width: 100%;
+				height: 100%;*/
+				position:absolute;
+				top:0;
+				left:0;
+			}
+			#jsalert{
+				position: absolute;
+				top: 0;
+				left: 0;
+				width: 100%;
+				height: 100%;
+				color: white;
+				background: black;
+			}
+		</style>
+	</head>
+	<body>
+		<canvas id="display"></canvas>
+		<script src="js/Util.js"></script>
+		<script src="js/Dir.js"></script>
+		<script src="js/Map.js"></script>
+		<script src="js/Physics.js"></script>
+		<script src="js/Painter.js"></script>
+		<script src="js/Petal.js"></script>
+		<script src="js/Graphics.js"></script>
+		<script src="js/Settings.js"></script>
+		<script src="js/maze.js"></script>
+		<noscript>
+			<div id="jsalert">
+				This game requires JavaScript.
+			</div>
+		</noscript>
+	</body>
+</html>
