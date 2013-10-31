@@ -2,10 +2,12 @@ var Map = {
 	tiles: [],
 	width: undefined,
 	height: undefined,
+	
 	tileIsInBounds: function (x, y) {
 		return 0 <= x && x < this.width
 		    && 0 <= y && y < this.height;
 	},
+	
 	getLeftWall: function (x, y) {
 		return !this.tileIsInBounds (x, y) || this.tiles[x][y].left;
 	},
@@ -24,6 +26,7 @@ var Map = {
 	setVisited: function (x, y, value) {
 		if (this.tileIsInBounds) this.tiles[x][y].visited = value;
 	},
+	
 	generate: function (width, height) {
 		this.width = width;
 		this.height = height;
@@ -37,6 +40,7 @@ var Map = {
 		this.carveMaze();
 		this.removeDeadEnds();
 	},
+	
 	carveMaze: function() {
 		var cursor = {x: 0, y: 0};
 		var pathStack = [];
@@ -71,6 +75,7 @@ var Map = {
 			}
 		}
 	},
+	
 	removeDeadEnds: function(){
 		for (var x = 0; x < this.width; x++) for (var y = 0; y < this.height; y++) {
 			if (Math.random() < 0.6) {
@@ -106,9 +111,11 @@ var Map = {
 			}
 		}
 	},
+	
 	pick: function (array) {
 		return array [Math.floor (Math.random() * array.length)];
 	},
+	
 	wall: {
 		EMPTY: 0,
 		WALL: 1,

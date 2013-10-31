@@ -30,7 +30,7 @@ var Painter = {
 		player.ty = Math.floor (player.y);
 		
 		timeSinceBoom++;
-		if (timeSinceBoom == Settings.petal.boomFrames) {
+		if (timeSinceBoom == Settings.petal.boomFrames && Settings.petal.enabled) {
 			timeSinceBoom = 0;
 			
 			if (player.ptx != player.tx || player.pty != player.ty || true) {
@@ -88,13 +88,16 @@ var Painter = {
 		c.arc (tilePx*petal.tx+tilePx/2, tilePx*petal.ty+tilePx/2, tilePx/2, 0, 2*Math.PI);
 		c.fillStyle = "red";
 		c.fill();
-		/*var w = c.canvas.width,
+		var w = c.canvas.width,
 			h = c.canvas.height;
 		var scene = [];
 		Graphics.render (Map, player.x, player.y, player.a, scene, petal.tx, petal.ty,
 			(w / h) / Settings.graphics.idealRatio * Settings.graphics.idealFov,
 			false);
-		var petalRealDistance = this.dist (player.x, player.y, petal.tx + 0.5, petal.ty + 0.5);
+		var petalRealDistance = 100;
+		if (Settings.petal.enabled) {
+			this.dist (player.x, player.y, petal.tx + 0.5, petal.ty + 0.5);
+		}
 		var petalEffectGamma = Math.max (0, 2 / (petalRealDistance / Settings.graphics.petalFalloff + 1) - 1);
 		petalEffectGamma *= 1 - timeSinceBoom / Settings.petal.boomFrames;
 		var petalEffectVignette = Math.max (0, 2 / (petalRealDistance / Settings.graphics.petalFalloff + 1) - 1);
@@ -144,7 +147,7 @@ var Painter = {
 				this.drawWall (c, w, h, scene, horizon, i, gamma, petalEffectVignette);
 			}
 		}
-		if (petalDistance > 0) {
+		if (petalDistance > 0 && Settings.petal.enabled) {
 			var petalScale = 1 / petalDistance;
 			c.drawImage (petalImage, petalX * w - 0.35*petalScale*h, (horizon - 0.2*petalScale)*h, 0.7*petalScale*h, 0.7*petalScale*h);
 		}
@@ -152,8 +155,8 @@ var Painter = {
 			if (scene[i + 2]) {
 				this.drawWall (c, w, h, scene, horizon, i, gamma, petalEffectVignette);
 			}
-		}*/
-		for(var x = 0; x <= Map.width; x++) for (var y = 0; y <= Map.height; y++) {
+		}
+		/*for(var x = 0; x <= Map.width; x++) for (var y = 0; y <= Map.height; y++) {
 			if(Map.getLeftWall (x, y)){
 				c.beginPath();
 				c.moveTo(x*tilePx-0.5, y*tilePx-0.5);
@@ -165,14 +168,14 @@ var Painter = {
 				c.moveTo(x*tilePx-0.5, y*tilePx-0.5);
 				c.lineTo((x+1)*tilePx-0.5, y*tilePx-0.5);
 				c.stroke();
-			}
+			}*/
 			/*if (petal.pathMap[x][y] != -1) {
 				c.beginPath();
 				c.fillStyle = "hsl(" + (petal.pathMap[x][y] + 150) + ", 100%, 50%)";
 				c.rect (x*tilePx, y*tilePx, tilePx, tilePx);
 				c.fill();
 			}*/
-		}
+		//}
 	},
 	drawWall: function (c, w, h, scene, horizon, i, gamma, petalEffect) {
 		c.beginPath();

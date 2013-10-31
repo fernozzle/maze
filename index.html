@@ -10,6 +10,7 @@
 			body{
 				font-family: sans-serif;
 				margin: 0;
+				overflow: hidden;
 			}
 			#display{
 				/*width: 100%;
@@ -18,6 +19,13 @@
 				top:0;
 				left:0;
 			}
+			#container {
+				width: 100%;
+				height: 100%;
+				position: absolute;
+				top: 0; left: 0;
+			}
+			
 			#jsalert{
 				position: absolute;
 				top: 0;
@@ -30,15 +38,18 @@
 		</style>
 	</head>
 	<body>
-		<canvas id="display"></canvas>
+		<!--<canvas id="display"></canvas>-->
+		<div id="container"></div>
+		
 		<script src="js/Util.js"></script>
 		<script src="js/Dir.js"></script>
 		<script src="js/Map.js"></script>
 		<script src="js/Physics.js"></script>
 		<script src="js/Painter.js"></script>
 		<script src="js/Petal.js"></script>
-		<script src="js/Graphics.js"></script>
+		<script src="js/Renderer.js"></script>
 		<script src="js/Settings.js"></script>
+		<script src="js/Game.js"></script>
 		<script src="js/maze.js"></script>
 		<noscript>
 			<div id="jsalert">

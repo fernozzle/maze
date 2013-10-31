@@ -1,4 +1,4 @@
-var Graphics = {
+var Renderer = {
 	render: function (map, wX, wY, wAngle, scene, wPX, wPY, fov, debug) {
 		if (debug) {
 			c.save();

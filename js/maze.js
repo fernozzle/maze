@@ -1,4 +1,9 @@
-var tilePx = 60;
+var container = document.getElementById ("container");
+
+var game = Object.create (Game);
+game.init (container);
+
+/*var tilePx = 60;
 var timeSinceBoom = 0;
 
 var petalImage = new Image();
@@ -119,4 +124,4 @@ function loop() {
 	raf (loop);
 	Painter.drawMap (Map, Petal, c);
 };
-loop();
+loop();*/
