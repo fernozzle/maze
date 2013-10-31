@@ -6,6 +6,7 @@ var Settings = {
 	player: {
 		speed: 0.005,
 		friction: 0.6,
+		radius: 0.05,
 		startX: 15,
 		startY: 15
 	},
@@ -23,10 +24,12 @@ var Settings = {
 			right: 39,
 			forward: 38,
 			backward: 40*/
-			left: 65,
-			right: 68,
-			forward: 87,
-			backward: 83
+			left:     65, // A
+			right:    68, // D
+			forward:  87, // W
+			backward: 83, // S
+			menu:     27, // Escape
+			select:   13, // Enter
 		}
 	},
 	graphics: {

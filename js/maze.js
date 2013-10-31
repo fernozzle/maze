@@ -1,7 +1,11 @@
 var container = document.getElementById ("container");
 
+var frameManager = Object.create (FrameManager);
+frameManager.init (container);
+
 var game = Object.create (Game);
-game.init (container);
+var gameContainer = frameManager.pushFrame (game);
+game.init (frameManager, gameContainer);
 game.start();
 
 /*var tilePx = 60;
