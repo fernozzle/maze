@@ -1,6 +1,20 @@
-var Painter = {
+var Graphics = {
+	displayCanvas: null,
+	
+	init: function (displayCanvas) {
+		this.displayCanvas = displayCanvas;
+		
+		this.updateCanvasSize();
+		window.addEventListener ("resize", this.updateCanvasSize.bind (this), false);
+	},
+	
+	updateCanvasSize: function() {
+		this.displayCanvas.width  = this.displayCanvas.parentNode.clientWidth;
+		this.displayCanvas.height = this.displayCanvas.parentNode.clientHeight;
+	},
+	
 	drawMap: function (map, petal, c){
-		player.vx += Math.cos (player.a) * Settings.player.speed * forwardness;
+		/*player.vx += Math.cos (player.a) * Settings.player.speed * forwardness;
 		player.vy += Math.sin (player.a) * Settings.player.speed * forwardness;
 		var dirCos = Math.cos (player.a),
 			dirSin = Math.sin (player.a);
@@ -73,7 +87,7 @@ var Painter = {
 				}
 			}
 		}
-		timer++;
+		timer++;*/
 		c.clearRect (0, 0, c.canvas.width, c.canvas.height);
 		c.lineWidth = 10;
 		c.strokeStyle = "black";
