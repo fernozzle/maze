@@ -3,10 +3,13 @@ var container = document.getElementById ("container");
 var frameManager = Object.create (FrameManager);
 frameManager.init (container);
 
-var game = Object.create (Game);
+/*var game = Object.create (Game);
 var gameContainer = frameManager.pushFrame (game);
 game.init (frameManager, gameContainer);
-game.start();
+game.start();*/
+var mainMenu = Object.create (MainMenu);
+var mainMenuContainer = frameManager.pushFrame (mainMenu);
+mainMenu.init (frameManager, mainMenuContainer);
 
 /*var tilePx = 60;
 var timeSinceBoom = 0;

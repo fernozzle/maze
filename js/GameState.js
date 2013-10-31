@@ -2,6 +2,7 @@ var GameState = {
 	map: undefined,
 	player: undefined,
 	petal: undefined,
+	timer: 0,
 	
 	init: function() {
 		this.map = Object.create (Map);

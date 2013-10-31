@@ -70,10 +70,33 @@ var Game = {
 		this.state.player.applyVelocity();
 		this.state.player.applyFriction (Settings.player.friction);
 		WallSolver.solve (this.state.player, this.state.map);
+		
+		if (this.state.timer % Settings.petal.boomFrames == 0) {
+			this.state.petal.takeStep (this.state.map, this.state.player.x, this.state.player.y);
+			console.clear();
+			console.log ("Your location:");
+			console.log ("  x: " + Math.floor(this.state.player.x));
+			console.log ("  y: " + Math.floor(this.state.player.y));
+			console.log ("Petal's location:");
+			console.log ("  x: " + Math.floor(this.state.petal.tx));
+			console.log ("  y: " + Math.floor(this.state.petal.ty));
+		}
+		
+		this.state.timer++;
 	},
 	
 	requestPointerLock: function() {
 		this.frameContainer.webkitRequestPointerLock();
+		/*
+		this.state.petal.takeStep (this.state.map, this.state.player.x, this.state.player.y);
+		console.clear();
+		console.log ("Your location:");
+		console.log ("  x: " + Math.floor(this.state.player.x));
+		console.log ("  y: " + Math.floor(this.state.player.y));
+		console.log ("Petal's location:");
+		console.log ("  x: " + Math.floor(this.state.petal.tx));
+		console.log ("  y: " + Math.floor(this.state.petal.ty));
+		*/
 	},
 	mouseMove: function (e) {
 		var dx = e.movementX       ||
