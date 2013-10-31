@@ -16,8 +16,8 @@ var Renderer = {
 		var currentHue = 300, hueStep = 30;
 		var hitRightEdge = false;
 		
-		scene.push (this.wPosToVX (Petal.tx + 0.5, Petal.ty + 0.5, wX, wY, wVecX, wVecY, fov));
-		scene.push (this.wPosToVD (Petal.tx + 0.5, Petal.ty + 0.5, wX, wY, wVecX, wVecY));
+		scene.push (this.wPosToVX (wPX + 0.5, wPY + 0.5, wX, wY, wVecX, wVecY, fov));
+		scene.push (this.wPosToVD (wPX + 0.5, wPY + 0.5, wX, wY, wVecX, wVecY));
 		
 		var wRayVecX = wStartEdgeVecX,
 		    wRayVecY = wStartEdgeVecY;

@@ -8,6 +8,44 @@ var Petal = {
 		this.ty = ty;
 	},
 	
+	takeStep: function (map, playerX, playerY) {
+		var playerTX = Math.floor (playerX);
+		var playerTY = Math.floor (playerY);
+		this.rePathMap (map, playerTX, playerTY);
+		
+		var lowestDir = -1;
+		var lowestVal = 999;
+		var upVal    = this.ty > 0            && !map.getTopWall  (this.tx,     this.ty    ) ? this.pathMap[this.tx  ][this.ty-1] : -1;
+		var downVal  = this.ty < map.height-1 && !map.getTopWall  (this.tx,     this.ty + 1) ? this.pathMap[this.tx  ][this.ty+1] : -1;
+		var leftVal  = this.tx > 0            && !map.getLeftWall (this.tx,     this.ty    ) ? this.pathMap[this.tx-1][this.ty  ] : -1;
+		var rightVal = this.tx < map.width-1  && !map.getLeftWall (this.tx + 1, this.ty    ) ? this.pathMap[this.tx+1][this.ty  ] : -1;
+		if (upVal >= 0) {
+			lowestDir = Dir.UP;
+			lowestVal = upVal;
+		}
+		if (downVal >= 0 && downVal < lowestVal) {
+			lowestDir = Dir.DOWN;
+			lowestVal = downVal;
+		}
+		if (leftVal >= 0 && leftVal < lowestVal) {
+			lowestDir = Dir.LEFT;
+			lowestVal = leftVal;
+		}
+		if (rightVal >= 0 && rightVal < lowestVal) {
+			lowestDir = Dir.RIGHT;
+			lowestVal = rightVal;
+		}
+		switch (lowestDir) {
+			case Dir.UP:
+				this.ty--; break;
+			case Dir.DOWN:
+				this.ty++; break;
+			case Dir.LEFT:
+				this.tx--; break;
+			case Dir.RIGHT:
+				this.tx++;
+		}
+	},
 	getPathMapTile: function (x, y) {
 		var w = this.pathMap.length;
 		var h = this.pathMap[0].length;

@@ -1,11 +1,14 @@
 var Graphics = {
 	canvas: undefined,
 	state: undefined,
+	petalImage: undefined,
 	
 	init: function (canvas, state) {
 		this.canvas = canvas;
-		
 		this.state = state;
+		
+		this.petalImage = new Image();
+		this.petalImage.src = Settings.petal.imagePath;
 		
 		this.updateCanvasSize();
 		window.addEventListener ("resize", this.updateCanvasSize.bind (this), false);
@@ -23,80 +26,7 @@ var Graphics = {
 	draw: function(){
 		window.requestAnimationFrame (this.draw.bind(this));
 		var context = this.canvas.getContext ("2d");
-		/*player.vx += Math.cos (player.a) * Settings.player.speed * forwardness;
-		player.vy += Math.sin (player.a) * Settings.player.speed * forwardness;
-		var dirCos = Math.cos (player.a),
-			dirSin = Math.sin (player.a);
-		if (keysDown.up) {
-			player.vx += dirCos * Settings.player.speed;
-			player.vy += dirSin * Settings.player.speed;
-		}
-		if (keysDown.down) {
-			player.vx -= dirCos * Settings.player.speed;
-			player.vy -= dirSin * Settings.player.speed;
-		}
-		if (keysDown.left) {
-			player.vx += dirSin * Settings.player.speed;
-			player.vy -= dirCos * Settings.player.speed;
-		}
-		if (keysDown.right) {
-			player.vx -= dirSin * Settings.player.speed;
-			player.vy += dirCos * Settings.player.speed;
-		}
-		//player.a += 0.02;
-		player.x += player.vx;
-		player.y += player.vy;
-		player.vx *= Settings.player.friction;
-		player.vy *= Settings.player.friction;
-		Physics.solve (player, map);
-		player.tx = Math.floor (player.x);
-		player.ty = Math.floor (player.y);
-		
-		timeSinceBoom++;
-		if (timeSinceBoom == Settings.petal.boomFrames && Settings.petal.enabled) {
-			timeSinceBoom = 0;
-			
-			if (player.ptx != player.tx || player.pty != player.ty || true) {
-				petal.rePathMap (map, player.tx, player.ty);
-				player.ptx = player.tx;
-				player.pty = player.ty;
-			}
-			for (var steps = 0; steps < 1; steps++) {
-				var lowestDir = -1;
-				var lowestVal = 999;
-				var upVal    = petal.ty > 0            && !map.getTopWall  (petal.tx,     petal.ty    ) ? petal.pathMap[petal.tx  ][petal.ty-1] : -1;
-				var downVal  = petal.ty < map.height-1 && !map.getTopWall  (petal.tx,     petal.ty + 1) ? petal.pathMap[petal.tx  ][petal.ty+1] : -1;
-				var leftVal  = petal.tx > 0            && !map.getLeftWall (petal.tx,     petal.ty    ) ? petal.pathMap[petal.tx-1][petal.ty  ] : -1;
-				var rightVal = petal.tx < map.width-1  && !map.getLeftWall (petal.tx + 1, petal.ty    ) ? petal.pathMap[petal.tx+1][petal.ty  ] : -1;
-				if (upVal >= 0) {
-					lowestDir = Dir.UP;
-					lowestVal = upVal;
-				}
-				if (downVal >= 0 && downVal < lowestVal) {
-					lowestDir = Dir.DOWN;
-					lowestVal = downVal;
-				}
-				if (leftVal >= 0 && leftVal < lowestVal) {
-					lowestDir = Dir.LEFT;
-					lowestVal = leftVal;
-				}
-				if (rightVal >= 0 && rightVal < lowestVal) {
-					lowestDir = Dir.RIGHT;
-					lowestVal = rightVal;
-				}
-				switch (lowestDir) {
-					case Dir.UP:
-						petal.ty--; break;
-					case Dir.DOWN:
-						petal.ty++; break;
-					case Dir.LEFT:
-						petal.tx--; break;
-					case Dir.RIGHT:
-						petal.tx++;
-				}
-			}
-		}
-		timer++;*/
+
 		context.clearRect (0, 0, this.canvas.width, this.canvas.height);
 		/*c.lineWidth = 10;
 		c.strokeStyle = "black";
@@ -120,9 +50,9 @@ var Graphics = {
 			(this.canvas.width / this.canvas.height) / Settings.graphics.idealRatio * Settings.graphics.idealFov,
 			false);
 		var petalRealDistance = 100;
-		if (Settings.petal.enabled) {
-			this.dist (this.state.player.x, this.state.player.y, this.state.petal.tx + 0.5, this.state.petal.ty + 0.5);
-		}
+		/*if (Settings.petal.enabled) {
+			petalRealDistance = this.dist (this.state.player.x, this.state.player.y, this.state.petal.tx + 0.5, this.state.petal.ty + 0.5);
+		}*/
 		
 		var timeSinceBoom = 10000;
 
@@ -177,7 +107,7 @@ var Graphics = {
 		}
 		if (petalDistance > 0 && Settings.petal.enabled) {
 			var petalScale = 1 / petalDistance;
-			context.drawImage (petalImage, petalX * w - 0.35*petalScale*h, (horizon - 0.2*petalScale)*h, 0.7*petalScale*h, 0.7*petalScale*h);
+			//context.drawImage (this.petalImage, petalX * this.canvas.width - 0.35*petalScale*this.canvas.height, (horizon - 0.2*petalScale)*this.canvas.height, 0.7*petalScale*this.canvas.height, 0.7*petalScale*this.canvas.height);
 		}
 		for (var i = 2; i < scene.length; i += 8) {
 			if (scene[i + 2]) {
