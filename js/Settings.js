@@ -10,7 +10,9 @@ var Settings = {
 		startY: 15
 	},
 	petal: {
-		enabled: false,
+		enabled: true,
+		startX: 18,
+		startY: 18,
 		boomFrames: 60,
 		imagePath: "a.png",
 	},

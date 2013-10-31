@@ -1,19 +1,28 @@
 var Graphics = {
-	displayCanvas: null,
+	canvas: undefined,
+	state: undefined,
 	
-	init: function (displayCanvas) {
-		this.displayCanvas = displayCanvas;
+	init: function (canvas, state) {
+		this.canvas = canvas;
+		
+		this.state = state;
 		
 		this.updateCanvasSize();
 		window.addEventListener ("resize", this.updateCanvasSize.bind (this), false);
 	},
 	
 	updateCanvasSize: function() {
-		this.displayCanvas.width  = this.displayCanvas.parentNode.clientWidth;
-		this.displayCanvas.height = this.displayCanvas.parentNode.clientHeight;
+		this.canvas.width  = this.canvas.parentNode.clientWidth;
+		this.canvas.height = this.canvas.parentNode.clientHeight;
 	},
 	
-	drawMap: function (map, petal, c){
+	startRendering: function() {
+		window.requestAnimationFrame (this.draw.bind(this));
+	},
+	
+	draw: function(){
+		window.requestAnimationFrame (this.draw.bind(this));
+		var context = this.canvas.getContext ("2d");
 		/*player.vx += Math.cos (player.a) * Settings.player.speed * forwardness;
 		player.vy += Math.sin (player.a) * Settings.player.speed * forwardness;
 		var dirCos = Math.cos (player.a),
@@ -88,9 +97,10 @@ var Graphics = {
 			}
 		}
 		timer++;*/
-		c.clearRect (0, 0, c.canvas.width, c.canvas.height);
-		c.lineWidth = 10;
+		context.clearRect (0, 0, this.canvas.width, this.canvas.height);
+		/*c.lineWidth = 10;
 		c.strokeStyle = "black";
+		
 		
 		// Player
 		c.beginPath();
@@ -101,29 +111,33 @@ var Graphics = {
 		c.beginPath();
 		c.arc (tilePx*petal.tx+tilePx/2, tilePx*petal.ty+tilePx/2, tilePx/2, 0, 2*Math.PI);
 		c.fillStyle = "red";
-		c.fill();
-		var w = c.canvas.width,
-			h = c.canvas.height;
+		c.fill();*/
+		/*var w = c.canvas.width,
+			h = c.canvas.height;*/
+		
 		var scene = [];
-		Graphics.render (Map, player.x, player.y, player.a, scene, petal.tx, petal.ty,
-			(w / h) / Settings.graphics.idealRatio * Settings.graphics.idealFov,
+		Renderer.render (this.state.map, this.state.player.x, this.state.player.y, this.state.player.angle, scene, this.state.petal.tx, this.state.petal.ty,
+			(this.canvas.width / this.canvas.height) / Settings.graphics.idealRatio * Settings.graphics.idealFov,
 			false);
 		var petalRealDistance = 100;
 		if (Settings.petal.enabled) {
-			this.dist (player.x, player.y, petal.tx + 0.5, petal.ty + 0.5);
+			this.dist (this.state.player.x, this.state.player.y, this.state.petal.tx + 0.5, this.state.petal.ty + 0.5);
 		}
+		
+		var timeSinceBoom = 10000;
+
 		var petalEffectGamma = Math.max (0, 2 / (petalRealDistance / Settings.graphics.petalFalloff + 1) - 1);
 		petalEffectGamma *= 1 - timeSinceBoom / Settings.petal.boomFrames;
 		var petalEffectVignette = Math.max (0, 2 / (petalRealDistance / Settings.graphics.petalFalloff + 1) - 1);
 		var gamma = Settings.graphics.gamma + (Settings.graphics.petalGammaAdd * petalEffectGamma);
 		var horizon = 0.3;
-		var bg = c.createLinearGradient (0, 0, 0, h);
+		var bg = context.createLinearGradient (0, 0, 0, this.canvas.height);
 		bg.addColorStop (horizon, "hsl(0,0%,0%)");
 		bg.addColorStop (0,       "hsl(0,0%," + (Math.pow (.15, gamma) * 100) + "%)");
 		bg.addColorStop (1,       "hsl(0,0%," + (Math.pow (.15, gamma) * 100) + "%)");
-		c.fillStyle = bg;
-		c.rect (0, 0, w, h);
-		c.fill();
+		context.fillStyle = bg;
+		context.rect (0, 0, this.canvas.width, this.canvas.height);
+		context.fill();
 		
 		var petalX = scene[0];
 		var petalDistance = scene[1];
@@ -138,36 +152,36 @@ var Graphics = {
 				var shadScale = 0.5;
 				if (vLeftEd || true && vLeftD < shadScale) {
 					var opacity = 1 - Math.pow (vLeftX, 12); opacity *= 0.2;
-					c.fillStyle = "rgba(0,0,0," + opacity + ")";
-					c.beginPath();
-					c.moveTo (((vLeftX - 0.5) / vLeftD * shadScale + 0.5) * w, horizon * h);
-					c.lineTo (vLeftX * w, (horizon - 0.2 / vLeftD) * h);
-					c.lineTo (vLeftX * w, (horizon + 0.5 / vLeftD) * h);
-					c.fill();
+					context.fillStyle = "rgba(0,0,0," + opacity + ")";
+					context.beginPath();
+					context.moveTo (((vLeftX - 0.5) / vLeftD * shadScale + 0.5) * this.canvas.width, horizon * this.canvas.height);
+					context.lineTo (vLeftX * this.canvas.width, (horizon - 0.2 / vLeftD) * this.canvas.height);
+					context.lineTo (vLeftX * this.canvas.width, (horizon + 0.5 / vLeftD) * this.canvas.height);
+					context.fill();
 				}
 				if (vRightEd || true && vRightD < shadScale) {
 					var opacity = 1 - Math.pow (vRightX - 1, 12); opacity *= 0.2;
-					c.fillStyle = "rgba(0,0,0," + opacity + ")";
-					c.beginPath();
-					c.moveTo (((vRightX - 0.5) / vRightD * shadScale + 0.5) * w, horizon * h);
-					c.lineTo (vRightX * w, (horizon - 0.2 / vRightD) * h);
-					c.lineTo (vRightX * w, (horizon + 0.5 / vRightD) * h);
-					c.fill();
+					context.fillStyle = "rgba(0,0,0," + opacity + ")";
+					context.beginPath();
+					context.moveTo (((vRightX - 0.5) / vRightD * shadScale + 0.5) * this.canvas.width, horizon * this.canvas.height);
+					context.lineTo (vRightX * this.canvas.width, (horizon - 0.2 / vRightD) * this.canvas.height);
+					context.lineTo (vRightX * this.canvas.width, (horizon + 0.5 / vRightD) * this.canvas.height);
+					context.fill();
 				}
 			}
 		}
 		for (var i = 2; i < scene.length; i += 8) {
 			if (!scene[i + 2]) {
-				this.drawWall (c, w, h, scene, horizon, i, gamma, petalEffectVignette);
+				this.drawWall (this.canvas, context, scene, horizon, i, gamma, petalEffectVignette);
 			}
 		}
 		if (petalDistance > 0 && Settings.petal.enabled) {
 			var petalScale = 1 / petalDistance;
-			c.drawImage (petalImage, petalX * w - 0.35*petalScale*h, (horizon - 0.2*petalScale)*h, 0.7*petalScale*h, 0.7*petalScale*h);
+			context.drawImage (petalImage, petalX * w - 0.35*petalScale*h, (horizon - 0.2*petalScale)*h, 0.7*petalScale*h, 0.7*petalScale*h);
 		}
 		for (var i = 2; i < scene.length; i += 8) {
 			if (scene[i + 2]) {
-				this.drawWall (c, w, h, scene, horizon, i, gamma, petalEffectVignette);
+				this.drawWall (this.canvas, context, scene, horizon, i, gamma, petalEffectVignette);
 			}
 		}
 		/*for(var x = 0; x <= Map.width; x++) for (var y = 0; y <= Map.height; y++) {
@@ -191,31 +205,31 @@ var Graphics = {
 			}*/
 		//}
 	},
-	drawWall: function (c, w, h, scene, horizon, i, gamma, petalEffect) {
-		c.beginPath();
+	drawWall: function (canvas, context, scene, horizon, i, gamma, petalEffect) {
+		context.beginPath();
 		var vLeftX  = scene[i    ],
 			vLeftD  = scene[i + 1];
 		var vRightX = scene[i + 4],
 			vRightD = scene[i + 5];
 		var shade   = scene[i + 6] * 0.8 + 0.2;
-		c.moveTo (vLeftX  * w,     (horizon + 0.5/vLeftD ) * h);
-		c.lineTo (vLeftX  * w,     (horizon - 0.2/vLeftD ) * h);
-		c.lineTo (vRightX * w + 1, (horizon - 0.2/vRightD) * h);
-		c.lineTo (vRightX * w + 1, (horizon + 0.5/vRightD) * h);
+		context.moveTo (vLeftX  * canvas.width,     (horizon + 0.5/vLeftD ) * canvas.height);
+		context.lineTo (vLeftX  * canvas.width,     (horizon - 0.2/vLeftD ) * canvas.height);
+		context.lineTo (vRightX * canvas.width + 1, (horizon - 0.2/vRightD) * canvas.height);
+		context.lineTo (vRightX * canvas.width + 1, (horizon + 0.5/vRightD) * canvas.height);
 		var vignetteStrength = Settings.graphics.vignette + petalEffect * Settings.graphics.petalVignetteAdd;
 		var leftVignette  = Math.max (0, 1 - vignetteStrength * Math.pow (vLeftX  - 0.5, 2));
 		var rightVignette = Math.max (0, 1 - vignetteStrength * Math.pow (vRightX - 0.5, 2));
 		var leftColor  = Math.pow (vLeftD  + 1.3, -2) * shade * leftVignette,
 			rightColor = Math.pow (vRightD + 1.3, -2) * shade * rightVignette;
 		if (Settings.graphics.gradients) {
-			var g = c.createLinearGradient (vLeftX * w, 0, vRightX * w, 0);
+			var g = context.createLinearGradient (vLeftX * this.canvas.width, 0, vRightX * this.canvas.width, 0);
 			g.addColorStop (0, "hsl(0,0%," + (Math.floor(Math.pow (leftColor,  gamma) * 1000) / 10) + "%)");
 			g.addColorStop (1, "hsl(0,0%," + (Math.floor(Math.pow (rightColor, gamma) * 1000) / 10) + "%)");
-			c.fillStyle = g;
+			context.fillStyle = g;
 		} else {
-			c.fillStyle = "hsl(0,0%," + (Math.floor(Math.pow (leftColor, gamma) * 1000) / 10) + "%)";
+			context.fillStyle = "hsl(0,0%," + (Math.floor(Math.pow (leftColor, gamma) * 1000) / 10) + "%)";
 		}
-		c.fill();
+		context.fill();
 	},
 	dist: function (x1, y1, x2, y2) {
 		return Math.sqrt (

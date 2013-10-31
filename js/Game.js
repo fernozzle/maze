@@ -1,32 +1,28 @@
 var Game = {
-	containerElement: null,
-	graphics: null,
-	map: null,
+	containerElement: undefined,
+	graphics: undefined,
+	state: undefined,
 	
 	init: function (containerElement) {
-		// Set up container and canvas
 		this.containerElement = containerElement;
 		
+		this.state = Object.create (GameState);
+		this.state.init();
 		
+		// Set up canvas and graphics
 		var displayCanvas = document.createElement ("canvas");
 		this.containerElement.appendChild (displayCanvas);
 		this.graphics = Object.create (Graphics);
-		this.graphics.init (displayCanvas);
-		
-		this.map = Object.create (Map);
-		this.map.generate (Settings.map.width, Settings.map.height);
-		/*function loop() {
-			window.requestAnimationFrame (loop);
-			console.clear();
-			console.log ("hi! " + Math.random());
-		};
-		window.requestAnimationFrame (loop);*/
-		
+		this.graphics.init (displayCanvas, this.state);
 	},
 	
 	
-	
 	start: function () {
-		
+		this.graphics.startRendering();
+		window.setInterval (this.step.bind(this), 1000/60);
+	},
+	
+	step: function() {
+		this.state.player.x += 0.01;
 	}
 };

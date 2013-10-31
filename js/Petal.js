@@ -1,7 +1,13 @@
 var Petal = {
-	tx: 18,
-	ty: 18,
+	tx: undefined,
+	ty: undefined,
 	pathMap: [],
+	
+	init: function (tx, ty) {
+		this.tx = tx;
+		this.ty = ty;
+	},
+	
 	getPathMapTile: function (x, y) {
 		var w = this.pathMap.length;
 		var h = this.pathMap[0].length;
@@ -12,7 +18,6 @@ var Petal = {
 		}
 	},
 	rePathMap: function (map, tx, ty) {
-		//console.log ("repathing");
 		if (this.pathMap.length) {
 			for (var x = 0; x < map.width; x++) for (var y = 0; y < map.height; y++) {
 				this.pathMap[x][y] = -1;

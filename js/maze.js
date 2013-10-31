@@ -2,6 +2,7 @@ var container = document.getElementById ("container");
 
 var game = Object.create (Game);
 game.init (container);
+game.start();
 
 /*var tilePx = 60;
 var timeSinceBoom = 0;
