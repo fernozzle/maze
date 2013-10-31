@@ -21,13 +21,13 @@ var Settings = {
 		mouseSensitivity: 0.0005,
 		keys: {
 			/*left: 37,
-			right: 39,
-			forward: 38,
-			backward: 40*/
+			right: 39,*/
 			left:     65, // A
 			right:    68, // D
 			forward:  87, // W
 			backward: 83, // S
+			up:       38,
+			down:     40,
 			menu:     27, // Escape
 			select:   13, // Enter
 		}

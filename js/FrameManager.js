@@ -57,6 +57,12 @@ var FrameManager = {
 			case Settings.controls.keys.backward:
 				keyId = KeyId.backward;
 				break;
+			case Settings.controls.keys.up:
+				keyId = KeyId.up;
+				break;
+			case Settings.controls.keys.down:
+				keyId = KeyId.down;
+				break;
 			case Settings.controls.keys.menu:
 				keyId = KeyId.menu;
 				break;

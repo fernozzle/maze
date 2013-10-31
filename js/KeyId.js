@@ -3,6 +3,8 @@ var KeyId = {
 	right:    2,
 	forward:  3,
 	backward: 4,
-	menu:     5,
-	select:   6
+	up:       5,
+	down:     6,
+	menu:     7,
+	select:   8
 }

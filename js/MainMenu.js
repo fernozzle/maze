@@ -2,10 +2,17 @@ var MainMenu = {
 	frameManager: undefined,
 	frameContainer: undefined,
 	
-	selectedOption: 0,
-	options: [
-		{label: Strings.menu.play,     action: function(){console.log("Pretend you're playing the game!")}},
-		{label: Strings.menu.settings, action: function(){console.log("Any modification of this game from its current state will worsen it.")}},
+	selectedItem: 0,
+	title: Strings.self.gameName,
+	items: [
+		//{label: Strings.menu.play,     element: undefined, action: function(){console.log("Pretend you're playing the game!")}},
+		{label: Strings.menu.play,     element: undefined, action: function() {
+			var game = Object.create (Game);
+			var gameContainer = frameManager.pushFrame (game);
+			game.init (frameManager, gameContainer);
+			game.start();
+		}},
+		{label: Strings.menu.settings, element: undefined, action: function(){console.log("Any modification of this game from its current state will worsen it.")}},
 	],
 	
 	init: function (frameManager, frameContainer) {
@@ -16,43 +23,56 @@ var MainMenu = {
 		menu.className = "main-menu";
 		this.frameContainer.appendChild (menu);
 		
-		for (var i = 0; i < this.options.length; i++) {
-			var optionListing = document.createElement ("div");
-			optionListing.innerText = this.options[i].label;
-			menu.appendChild (optionListing);
+		var title = document.createElement ("h1");
+		title.innerText = this.title;
+		menu.appendChild (title);
+		for (var i = 0; i < this.items.length; i++) {
+			var itemListing = document.createElement ("div");
+			itemListing.innerText = this.items[i].label;
+			menu.appendChild (itemListing);
+			this.items[i].element = itemListing;
 		}
+		
+		this.selectItem (0);
 	},
 	
+	selectItem: function (itemIndex) {
+		var previousItemListing = this.items[this.selectedItem].element;
+		previousItemListing.className = "";
+		
+		this.selectedItem = itemIndex;
+		
+		var newItemListing = this.items[this.selectedItem].element;
+		newItemListing.className = "selected";
+	},
+	selectNextItem: function() {
+		if (this.selectedItem < this.items.length - 1) {
+			this.selectItem (this.selectedItem + 1);
+		} else {
+			this.selectItem (0);
+		}
+	},
+	selectPreviousItem: function() {
+		if (this.selectedItem > 0) {
+			this.selectItem (this.selectedItem - 1);
+		} else {
+			this.selectItem (this.items.length - 1);
+		}
+	},
 	keyIdDown: function (keyId) {
-		/*switch (keyId) {
-			case KeyId.left:
-				this.keysDown.left = true;
-				break;
-			case KeyId.right:
-				this.keysDown.right = true;
-				break;
-			case KeyId.forward:
-				this.keysDown.forward = true;
-				break;
+		switch (keyId) {
+			case KeyId.down:
 			case KeyId.backward:
-				this.keysDown.backward = true;
+				this.selectNextItem();
 				break;
-		}*/
+			case KeyId.up:
+			case KeyId.forward:
+				this.selectPreviousItem();
+				break;
+			case KeyId.select:
+				this.items[this.selectedItem].action();
+		}
 	},
 	keyIdUp: function (keyId) {
-		/*switch (keyId) {
-			case KeyId.left:
-				this.keysDown.left = false;
-				break;
-			case KeyId.right:
-				this.keysDown.right = false;
-				break;
-			case KeyId.forward:
-				this.keysDown.forward = false;
-				break;
-			case KeyId.backward:
-				this.keysDown.backward = false;
-				break;
-		}*/
-	},
+	}
 };
