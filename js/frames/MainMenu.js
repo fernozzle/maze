@@ -1,4 +1,4 @@
-var MainMenu = Object.create (Menu, {
+var MainMenu = Extend.extend (Menu, {
 	title: Strings.self.gameName,
 	items: [
 		{label: Strings.menu.play,     element: undefined, action: function() {

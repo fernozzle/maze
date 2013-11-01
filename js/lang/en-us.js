@@ -5,5 +5,9 @@ var Strings = {
 	menu: {
 		play: "Play da game!",
 		settings: "Settings"
+	},
+	pauseMenu: {
+		paused: "Paused",
+		resume: "Resume game"
 	}
 }

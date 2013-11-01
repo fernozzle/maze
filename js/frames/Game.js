@@ -39,6 +39,11 @@ var Game = {
 			case KeyId.backward:
 				this.keysDown.backward = true;
 				break;
+			/*case KeyId.menu:
+				var pauseMenu = Object.create (PauseMenu);
+				var pauseMenuContainer = this.frameManager.pushFrame (pauseMenu);
+				pauseMenu.init (this.frameManager, pauseMenuContainer);
+				this.frameManager*/
 		}
 	},
 	keyIdUp: function (keyId) {
@@ -62,6 +67,7 @@ var Game = {
 		this.graphics.startRendering();
 		window.setInterval (this.step.bind(this), 1000/60);
 		this.frameContainer.addEventListener ("click", this.requestPointerLock.bind(this), false);
+		document.addEventListener ("webkitpointerlockchange", this.pointerLockChange.bind(this), false);
 		this.frameContainer.addEventListener ("mousemove", this.mouseMove.bind(this), false);
 	},
 	
@@ -73,13 +79,13 @@ var Game = {
 		
 		if (this.state.timer % Settings.petal.boomFrames == 0) {
 			this.state.petal.takeStep (this.state.map, this.state.player.x, this.state.player.y);
-			console.clear();
+			/*console.clear();
 			console.log ("Your location:");
 			console.log ("  x: " + Math.floor(this.state.player.x));
 			console.log ("  y: " + Math.floor(this.state.player.y));
 			console.log ("Petal's location:");
 			console.log ("  x: " + Math.floor(this.state.petal.tx));
-			console.log ("  y: " + Math.floor(this.state.petal.ty));
+			console.log ("  y: " + Math.floor(this.state.petal.ty));*/
 		}
 		
 		this.state.timer++;
@@ -87,16 +93,18 @@ var Game = {
 	
 	requestPointerLock: function() {
 		this.frameContainer.webkitRequestPointerLock();
-		/*
-		this.state.petal.takeStep (this.state.map, this.state.player.x, this.state.player.y);
-		console.clear();
-		console.log ("Your location:");
-		console.log ("  x: " + Math.floor(this.state.player.x));
-		console.log ("  y: " + Math.floor(this.state.player.y));
-		console.log ("Petal's location:");
-		console.log ("  x: " + Math.floor(this.state.petal.tx));
-		console.log ("  y: " + Math.floor(this.state.petal.ty));
-		*/
+	},
+	pointerLockChange: function (e) {
+		document.pointerLockElement = document.pointerLockElement    ||
+		                              document.mozPointerLockElement ||
+		                              document.webkitPointerLockElement;
+		if (!!document.pointerLockElement) {
+			
+		} else {
+			var pauseMenu = Object.create (PauseMenu);
+			var pauseMenuContainer = this.frameManager.pushFrame (pauseMenu);
+			pauseMenu.init (this.frameManager, pauseMenuContainer);
+		}
 	},
 	mouseMove: function (e) {
 		var dx = e.movementX       ||
