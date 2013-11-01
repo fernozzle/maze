@@ -13,6 +13,9 @@ var FrameManager = {
 	},
 	// Pushes the frame object to `frames` and returns the container DOM element to use
 	pushFrame: function (frame) {
+		if (this.frames.length)
+			this.getCurrentFrame().defocus();
+		
 		this.frames.push (frame);
 		
 		var frameContainer = document.createElement ("div");
@@ -23,6 +26,8 @@ var FrameManager = {
 	popFrame: function() {
 		var removedFrame = this.frames.pop();
 		this.container.removeChild (removedFrame.frameContainer);
+		
+		this.getCurrentFrame().focus();
 	},
 	
 	// Key handling

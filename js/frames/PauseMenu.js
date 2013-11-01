@@ -9,6 +9,6 @@ var PauseMenu = Extend.extend (Menu, {
 			}
 		},
 	],
-	className: "pause-menu",
+	className: "menu pause-menu",
 
 })

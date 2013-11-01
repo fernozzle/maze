@@ -19,13 +19,16 @@ var Menu = {
 		title.innerText = this.title;
 		menu.appendChild (title);
 		for (var i = 0; i < this.items.length; i++) {
-			var itemListing = document.createElement ("div");
-			itemListing.innerText = this.items[i].label;
-			menu.appendChild (itemListing);
-			this.items[i].element = itemListing;
+			var itemListingElement = document.createElement ("div");
+			itemListingElement.innerText = this.items[i].label;
+			itemListingElement.addEventListener ("click", this.items[i].action.bind(this), false);
+			menu.appendChild (itemListingElement);
+			this.items[i].element = itemListingElement;
 		}
 		
 		this.selectItem (0);
+	},
+	defocus: function() {
 	},
 	
 	selectItem: function (itemIndex) {
@@ -62,7 +65,7 @@ var Menu = {
 				this.selectPreviousItem();
 				break;
 			case KeyId.select:
-				this.items[this.selectedItem].action();
+				(this.items[this.selectedItem].action.bind(this))();
 		}
 	},
 	keyIdUp: function (keyId) {

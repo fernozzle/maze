@@ -32,6 +32,9 @@ var Settings = {
 			select:   13, // Enter
 		}
 	},
+	game: {
+		updateRate: 60,
+	},
 	graphics: {
 		idealRatio: 16/9,
 		idealFov: 2,

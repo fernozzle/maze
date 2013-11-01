@@ -4,6 +4,9 @@ var Game = {
 	graphics: undefined,
 	state: undefined,
 	
+	stepInterval: undefined,
+	framesSincePointerLock: 0,
+	
 	keysDown: {
 		left:     false,
 		right:    false,
@@ -64,11 +67,21 @@ var Game = {
 	},
 	
 	start: function () {
-		this.graphics.startRendering();
-		window.setInterval (this.step.bind(this), 1000/60);
+		this.focus();
 		this.frameContainer.addEventListener ("click", this.requestPointerLock.bind(this), false);
 		document.addEventListener ("webkitpointerlockchange", this.pointerLockChange.bind(this), false);
 		this.frameContainer.addEventListener ("mousemove", this.mouseMove.bind(this), false);
+	},
+	
+	defocus: function() {
+		this.graphics.stopRendering();
+		window.clearInterval (this.stepInterval);
+		this.framesSincePointerLock = 0;
+	},
+	focus: function() {
+		this.requestPointerLock();
+		this.graphics.startRendering();
+		this.stepInterval = window.setInterval (this.step.bind(this), 1000 / Settings.game.updateRate);
 	},
 	
 	step: function() {
@@ -87,18 +100,19 @@ var Game = {
 			console.log ("  x: " + Math.floor(this.state.petal.tx));
 			console.log ("  y: " + Math.floor(this.state.petal.ty));*/
 		}
-		
+
 		this.state.timer++;
+		this.framesSincePointerLock++;
 	},
 	
 	requestPointerLock: function() {
 		this.frameContainer.webkitRequestPointerLock();
 	},
 	pointerLockChange: function (e) {
-		document.pointerLockElement = document.pointerLockElement    ||
-		                              document.mozPointerLockElement ||
-		                              document.webkitPointerLockElement;
-		if (!!document.pointerLockElement) {
+		var pointerLockElement = document.pointerLockElement    ||
+		                         document.mozPointerLockElement ||
+		                         document.webkitPointerLockElement;
+		if (!!pointerLockElement) {
 			
 		} else {
 			var pauseMenu = Object.create (PauseMenu);
@@ -115,6 +129,8 @@ var Game = {
 				 e.mozMovementY    ||
 				 e.webkitMovementY ||
 				 0;
-		this.state.player.turn (dx * Settings.controls.mouseSensitivity);
+		if (this.framesSincePointerLock > 1) { // A very large mouse movement is reported after a pointer lock
+			this.state.player.turn (dx * Settings.controls.mouseSensitivity);
+		}
 	}
 };

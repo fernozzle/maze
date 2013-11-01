@@ -2,6 +2,7 @@ var Graphics = {
 	canvas: undefined,
 	state: undefined,
 	petalImage: undefined,
+	currentlyRendering: false,
 	
 	init: function (canvas, state) {
 		this.canvas = canvas;
@@ -20,11 +21,16 @@ var Graphics = {
 	},
 	
 	startRendering: function() {
+		this.currentlyRendering = true;
 		window.requestAnimationFrame (this.draw.bind(this));
+	},
+	stopRendering: function() {
+		this.currentlyRendering = false;
 	},
 	
 	draw: function(){
-		window.requestAnimationFrame (this.draw.bind(this));
+		if (this.currentlyRendering)
+			window.requestAnimationFrame (this.draw.bind(this));
 		var context = this.canvas.getContext ("2d");
 
 		context.clearRect (0, 0, this.canvas.width, this.canvas.height);
@@ -63,7 +69,7 @@ var Graphics = {
 		var horizon = 0.3;
 		var bg = context.createLinearGradient (0, 0, 0, this.canvas.height);
 		bg.addColorStop (horizon, "hsl(0,0%,0%)");
-		bg.addColorStop (0,       "hsl(0,0%," + (Math.pow (.15, gamma) * 100) + "%)");
+		bg.addColorStop (0,       "hsl(0,0%," + (Math.pow (.15, gamma) * 100 * Math.random()) + "%)");
 		bg.addColorStop (1,       "hsl(0,0%," + (Math.pow (.15, gamma) * 100) + "%)");
 		context.fillStyle = bg;
 		context.rect (0, 0, this.canvas.width, this.canvas.height);
