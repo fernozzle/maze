@@ -18,7 +18,7 @@ var Settings = {
 		imagePath: "a.png",
 	},
 	controls: {
-		mouseSensitivity: 0.0005,
+		mouseSensitivity: 0.0015,
 		keys: {
 			/*left: 37,
 			right: 39,*/
