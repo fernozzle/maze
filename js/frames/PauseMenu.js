@@ -8,6 +8,14 @@ var PauseMenu = Extend.extend (Menu, {
 				this.frameManager.popFrame();
 			}
 		},
+		{
+			label: Strings.pauseMenu.quit,
+			element: undefined,
+			action: function() {
+				this.frameManager.popFrame();
+				this.frameManager.getCurrentFrame().quit();
+			}
+		}
 	],
 	className: "menu pause-menu",
 

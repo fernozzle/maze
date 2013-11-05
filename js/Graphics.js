@@ -55,13 +55,14 @@ var Graphics = {
 		Renderer.render (this.state.map, this.state.player.x, this.state.player.y, this.state.player.angle, scene, this.state.petal.tx, this.state.petal.ty,
 			(this.canvas.width / this.canvas.height) / Settings.graphics.idealRatio * Settings.graphics.idealFov,
 			false);
-		var petalRealDistance = 100;
-		/*if (Settings.petal.enabled) {
+		//var petalRealDistance = 10000 / this.state.timer;
+		if (Settings.petal.enabled) {
 			petalRealDistance = this.dist (this.state.player.x, this.state.player.y, this.state.petal.tx + 0.5, this.state.petal.ty + 0.5);
-		}*/
+		}
 		
 		var timeSinceBoom = 10000;
-
+		timeSinceBoom = this.state.timer % Settings.petal.boomFrames;
+		
 		var petalEffectGamma = Math.max (0, 2 / (petalRealDistance / Settings.graphics.petalFalloff + 1) - 1);
 		petalEffectGamma *= 1 - timeSinceBoom / Settings.petal.boomFrames;
 		var petalEffectVignette = Math.max (0, 2 / (petalRealDistance / Settings.graphics.petalFalloff + 1) - 1);
@@ -69,7 +70,7 @@ var Graphics = {
 		var horizon = 0.3;
 		var bg = context.createLinearGradient (0, 0, 0, this.canvas.height);
 		bg.addColorStop (horizon, "hsl(0,0%,0%)");
-		bg.addColorStop (0,       "hsl(0,0%," + (Math.pow (.15, gamma) * 100 * Math.random()) + "%)");
+		bg.addColorStop (0,       "hsl(0,0%," + (Math.pow (.15, gamma) * 100) + "%)");
 		bg.addColorStop (1,       "hsl(0,0%," + (Math.pow (.15, gamma) * 100) + "%)");
 		context.fillStyle = bg;
 		context.rect (0, 0, this.canvas.width, this.canvas.height);
@@ -113,7 +114,7 @@ var Graphics = {
 		}
 		if (petalDistance > 0 && Settings.petal.enabled) {
 			var petalScale = 1 / petalDistance;
-			//context.drawImage (this.petalImage, petalX * this.canvas.width - 0.35*petalScale*this.canvas.height, (horizon - 0.2*petalScale)*this.canvas.height, 0.7*petalScale*this.canvas.height, 0.7*petalScale*this.canvas.height);
+			context.drawImage (this.petalImage, petalX * this.canvas.width - 0.35*petalScale*this.canvas.height, (horizon - 0.2*petalScale)*this.canvas.height, 0.7*petalScale*this.canvas.height, 0.7*petalScale*this.canvas.height);
 		}
 		for (var i = 2; i < scene.length; i += 8) {
 			if (scene[i + 2]) {

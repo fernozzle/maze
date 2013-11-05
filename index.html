@@ -1,7 +1,7 @@
 <!doctype html>
 <html manifest="manifest.txt">
 	<head>
-		<title>maze game</title>
+		<title>The Evil Leafy Maze Game</title>
 		<meta charset="utf-8">
 		<meta name="viewport" content="user-scalable = no, initial-scale = 1" />
 		<meta name="apple-mobile-web-app-capable" content="yes" />
@@ -41,21 +41,28 @@
 				
 				font-family: "Libre Baskerville";
 				letter-spacing: 2px;
-				
-				cursor: pointer;
 			}
 			.menu > h1 {
 				font-size: 40px;
 				font-weight: bold;
 			}
+			.menu > h2 {
+				font-size: 60px;
+				font-weight: normal;
+			}
 			.menu > div {
 				font-size: 20px;
 				padding: 5px;
 				margin: 5px;
+				cursor: pointer;
 			}
 			.menu > div.selected {
 				color: black;
 				background: rgba(255, 255, 255, 0.8);
+			}
+			.menu > div:hover {
+				color: black;
+				background: rgba(255, 255, 255, 0.5);
 			}
 			
 			.menu.main-menu {
@@ -101,6 +108,7 @@
 		<script src="js/frames/Menu.js"></script>
 		<script src="js/frames/MainMenu.js"></script>
 		<script src="js/frames/PauseMenu.js"></script>
+		<script src="js/frames/DeathMenu.js"></script>
 		<script src="js/frames/Game.js"></script>
 		<script src="js/maze.js"></script>
 		<noscript>

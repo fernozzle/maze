@@ -4,6 +4,7 @@ var Player = {
 	vx: undefined,
 	vy: undefined,
 	angle: undefined,
+	alive: true,
 	
 	init: function (x, y, angle) {
 		this.x = x;

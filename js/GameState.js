@@ -3,6 +3,7 @@ var GameState = {
 	player: undefined,
 	petal: undefined,
 	timer: 0,
+	deathTime: undefined,
 	
 	init: function() {
 		this.map = Object.create (Map);

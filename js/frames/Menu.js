@@ -28,6 +28,8 @@ var Menu = {
 		
 		this.selectItem (0);
 	},
+	focus: function() {
+	},
 	defocus: function() {
 	},
 	

@@ -12,8 +12,8 @@ var Settings = {
 	},
 	petal: {
 		enabled: true,
-		startX: 18,
-		startY: 18,
+		startX: 15,
+		startY: 16,
 		boomFrames: 60,
 		imagePath: "a.png",
 	},
@@ -34,6 +34,7 @@ var Settings = {
 	},
 	game: {
 		updateRate: 60,
+		framesToShowDeathScreen: 100
 	},
 	graphics: {
 		idealRatio: 16/9,
